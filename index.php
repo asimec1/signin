@@ -15,6 +15,7 @@
 <body>
 <div class="container">
 	<h1>Prijava korisnika</h1>
+	
      <form action="index.php" method="POST" name="signin">
 		<input type="hidden" id="control" name="control" value="true">
         <div class="form-check">
@@ -41,6 +42,11 @@
 			} 
 
 	   }
+	   if (isset($_SESSION["username"]) && $_SESSION["username"] == "admin") {
+		echo "<p><b>Dobrodošao:</b> " . $_SESSION["username"] ."</p>";
+		echo '<p><a href="signout.php">Odjavi se</a></p>';
+	   }
+	   
 	 ?>
 </div>
 </body>
