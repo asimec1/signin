@@ -15,37 +15,51 @@
 <body>
 <div class="container">
 	<h1>Prijava korisnika</h1>
-	
-     <form action="index.php" method="POST" name="signin">
-		<input type="hidden" id="control" name="control" value="true">
-        <div class="form-check">
-			<label for="user">Korisnik:*</label>
-			<input type="text" id="user" name="user" class="form-control" required>
-		</div>
-		<div class="form-check">
-			<label for="pass">Lozinka:*</label>
-			<input type="password" id="pass" name="pass" class="form-control" required>
-		</div>
-        <input type="submit" value="Pošalji" class="btn btn-primary">
-     </form>
-	 
-	 <?php 
-	 if (!isset($_POST['control'])) { $_POST['control'] = false; }
-	   if($_POST['control'] == true) {
-		   session_start();   
-		     if (isset($_POST["user"]) && isset($_POST["pass"]))   {
-				  if ($_POST["user"] == "admin" && $_POST["pass"] == "123")     {  
-					   $_SESSION["username"] = $_POST["user"]; 
-					   echo "<p>Uspješna prijava!</p>";
-				  }     
-				  else {  echo "<p>Neuspješna prijava!</p>";     }   
-			} 
+	<?php 
+    session_start();   
+        
+    if (isset($_POST["user"]) && isset($_POST["pass"]))   {
+       if ($_POST["user"] == "admin" && $_POST["pass"] == "123")     {  
+		   $_SESSION["username"] = $_POST["user"]; 
+			   echo "<p style='color: green;font-weight:bold;font-size:16px;'>Uspješna prijava!</p>";
+	    }     
+	    else {  echo "<p>Neuspješna prijava!</p>";     }   
+		
 
 	   }
 	   if (isset($_SESSION["username"]) && $_SESSION["username"] == "admin") {
+        if (!isset($_GET['menu'])) { $_GET['menu'] = 1; }
 		echo "<p><b>Dobrodošao:</b> " . $_SESSION["username"] ."</p>";
-		echo '<p><a href="signout.php">Odjavi se</a></p>';
+		echo '<p><a href="signout.php">Odjavi se</a></p>
+                <ul>
+                    <li><a href="index.php?menu=1">News</a></li>
+                    <li><a href="index.php?menu=2">Users</a></li>
+                </ul>';
+                if ($_GET['menu'] == 1) {
+                    print '<h1>News</h1>';
+                }
+                if ($_GET['menu'] == 2) {
+                    print '<h1>Users</h1>';
+                    var_dump($_SESSION["username"]);
+                }
 	   }
+       else {
+        
+            print '
+            <form action="index.php" method="POST" name="signin">
+                
+                <div class="form-check">
+                    <label for="user">Korisnik:*</label>
+                    <input type="text" id="user" name="user" class="form-control" required>
+                </div>
+                <div class="form-check">
+                    <label for="pass">Lozinka:*</label>
+                    <input type="password" id="pass" name="pass" class="form-control" required>
+                </div>
+                <input type="submit" value="Pošalji" class="btn btn-primary">
+            </form>';
+       
+       }
 	   
 	 ?>
 </div>
